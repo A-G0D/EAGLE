@@ -1,4 +1,4 @@
-name: NRT EAGLE CI Pipeline (uwtools)
+name: NRT EAGLE CI Pipeline Weekly
 
 on:
   schedule:
