@@ -51,6 +51,7 @@ jobs:
       - name: Build env and run pipeline
         env:
           INSTALLDIR: conda
+          PR_NUM: 99999
         run: .github/scripts/nested-eagle
     
       - name: Send Slack Notification
