@@ -33,10 +33,9 @@ jobs:
       queue: max
     name: Run Nested EAGLE end-to-end on Ursa
     runs-on: ursa
-    environment: autonomous
     timeout-minutes: 1440
     environment:
-      name: eagle-ursa
+      name: autonomous
 
     steps:
 
