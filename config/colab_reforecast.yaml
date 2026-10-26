@@ -10,7 +10,7 @@ app:
     now: !datetime '{{ "NOW" | env }}'
     ic_start: !datetime '{{ app.nrt.inference_start - app.nrt.multistep_input_offset }}'
     inference_start: !datetime '{{ app.nrt.now - app.nrt.offset - app.nrt.latency }}'
-    latency: !timedelta 6
+    latency: !timedelta 0
     leadtime: !timedelta 48
     offset: !timedelta '0:0:{{ (app.nrt.now.timestamp() % 21600) | int }}'
     stop: !datetime '{{ app.nrt.inference_start + app.nrt.leadtime }}'
@@ -35,8 +35,6 @@ app:
   platform:
     account: placeholder
     scheduler: slurm
-grids_and_meshes:
-  rundir: '{{ app.rundir }}/data'
 inference:
   execution:
     batchargs: !remove
@@ -95,9 +93,8 @@ zarrs:
       batchargs: !dict '{walltime: "00:10:00"}'
       envcmds:
         - set -ex
-      mpiargs:
-        - -n 2
-      mpicmd: mpiexec
+      mpiargs: []
+      mpicmd: []
   gfs:
     zarr:
       execution:
@@ -105,9 +102,8 @@ zarrs:
         envcmds:
           - set -ex
         executable: ufs2arco ufs2arco-gfs.yaml --overwrite
-        mpiargs:
-          - -n 2
-        mpicmd: mpiexec
+        mpiargs: []
+        mpicmd: []
       ufs2arco:
         multisource: !remove
         source: !dict '{{ dict(ufs2arco.source, name="gfs_archive", slices=ufs2arco.slices) }}'
