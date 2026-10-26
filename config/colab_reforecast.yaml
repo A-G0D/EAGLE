@@ -5,21 +5,22 @@
 app:
   base: /content/EAGLE
   experiment_name: global_mini
-  nrt:
+  forcasting:
+    # default to NOW for nrt runs. Users simply enter a date here for reforecast runs.
+    init_choice: !datetime '{{ "NOW" | env }}'
     multistep_input_offset: !timedelta 6
-    now: !datetime '{{ "NOW" | env }}'
-    ic_start: !datetime '{{ app.nrt.inference_start - app.nrt.multistep_input_offset }}'
-    inference_start: !datetime '{{ app.nrt.now - app.nrt.offset - app.nrt.latency }}'
+    ic_start: !datetime '{{ app.forcasting.inference_start - app.forcasting.multistep_input_offset }}'
+    inference_start: !datetime '{{ app.forcasting.init_choice - app.forcasting.offset - app.forcasting.latency }}'
     latency: !timedelta 0
     leadtime: !timedelta 48
-    offset: !timedelta '0:0:{{ (app.nrt.now.timestamp() % 21600) | int }}'
-    stop: !datetime '{{ app.nrt.inference_start + app.nrt.leadtime }}'
+    offset: !timedelta '0:0:{{ (app.forcasting.init_choice.timestamp() % 21600) | int }}'
+    stop: !datetime '{{ app.forcasting.inference_start + app.forcasting.leadtime }}'
   time:
-    inference_start: !datetime '{{ app.nrt.inference_start }}'
-    inference_stop: !datetime '{{ app.nrt.inference_start }}'
-    start: !datetime '{{ app.nrt.ic_start }}'
-    stop: !datetime '{{ app.nrt.stop }}'
-    leadtime: !int '{{ (app.nrt.leadtime.total_seconds() / 3600) | int }}'
+    inference_start: !datetime '{{ app.forcasting.inference_start }}'
+    inference_stop: !datetime '{{ app.forcasting.inference_start }}'
+    start: !datetime '{{ app.forcasting.ic_start }}'
+    stop: !datetime '{{ app.forcasting.stop }}'
+    leadtime: !int '{{ (app.forcasting.leadtime.total_seconds() / 3600) | int }}'
   rundir: '{{ app.base }}/run/{{ app.experiment_name }}/nrt_inference/{{ app.time.inference_start.strftime("%Y/%m/%d/%H") }}'
   # Remove launcher so execution commands run directly in the notebook/runtime.
   launcher: !remove
