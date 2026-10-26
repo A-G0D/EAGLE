@@ -95,7 +95,7 @@ zarrs:
       envcmds:
         - set -ex
       mpiargs: []
-      mpicmd: []
+      mpicmd: ""
   gfs:
     zarr:
       execution:
@@ -104,7 +104,7 @@ zarrs:
           - set -ex
         executable: ufs2arco ufs2arco-gfs.yaml --overwrite
         mpiargs: []
-        mpicmd: []
+        mpicmd: ""
       ufs2arco:
         multisource: !remove
         source: !dict '{{ dict(ufs2arco.source, name="gfs_archive", slices=ufs2arco.slices) }}'
