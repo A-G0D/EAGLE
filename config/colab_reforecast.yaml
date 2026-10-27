@@ -6,8 +6,7 @@ app:
   base: /content/EAGLE
   experiment_name: global_mini
   forcasting:
-    # default to NOW for nrt runs. Users simply enter a date here for reforecast runs.
-    init_choice: !datetime '{{ "NOW" | env }}'
+    init_choice: !datetime '{{ "INIT_CHOICE" | env }}'
     multistep_input_offset: !timedelta 6
     ic_start: !datetime '{{ app.forcasting.inference_start - app.forcasting.multistep_input_offset }}'
     inference_start: !datetime '{{ app.forcasting.init_choice - app.forcasting.offset - app.forcasting.latency }}'
