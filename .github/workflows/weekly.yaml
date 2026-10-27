@@ -19,6 +19,7 @@ jobs:
       queue: max
     name: Clean old conda installs
     runs-on: ursa
+    environment: autonomous
     steps:
       - name: Check out code
         uses: actions/checkout@v4
@@ -34,7 +35,7 @@ jobs:
     runs-on: ursa
     timeout-minutes: 1440
     environment:
-      name: eagle-ursa
+      name: autonomous
 
     steps:
 
@@ -52,6 +53,7 @@ jobs:
         env:
           INSTALLDIR: conda
           PR_NUM: 99999
+          SHA: ${{ github.sha }}
         run: .github/scripts/nested-eagle
     
       - name: Send Slack Notification
@@ -62,5 +64,5 @@ jobs:
           payload: |
             {
               "channel": "C0C7AJ84X3P", 
-              "text": ":spack: *${{ github.workflow }}* completed on *${{ matrix.runner }}* with status: *${{ job.status }}* }}"
-
+              "text": ":eagle: *${{ github.workflow }}* completed on *${{ runner.name }}* with status: *${{ job.status }}*"
+            }
